@@ -6,7 +6,7 @@ const Hero = () => {
     <section id="hero" className="hero">
       <h1>Bonjour, My Landing Page</h1>
       <p>Discover the best solutions for your business.</p>
-      <button>Get Started</button>
+      <button className="custom-button">Get Started</button>
     </section>
   );
 };
