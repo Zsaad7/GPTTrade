@@ -1,0 +1,29 @@
+/* Footer Container */
+footer {
+    background-color: #333; /* Matches the header's background color */
+    color: white; /* Matches the header's text color */
+    padding: 1rem; /* Same padding as the header */
+    text-align: center; /* Center-align content for a clean look */
+  }
+  
+  /* Copyright Text */
+  footer p {
+    margin: 0; /* Remove default paragraph margins */
+    font-size: 0.9rem; /* Slightly smaller font size for footer */
+  }
+  
+  /* Social Links or Additional Information */
+  footer a {
+    color: white; /* Matches the header's link color */
+    text-decoration: none; /* Remove underline from links */
+    font-weight: bold; /* Make links stand out */
+  }
+  
+  footer a:hover {
+    text-decoration: underline; /* Add underline on hover for better UX */
+  }
+  
+  /* Optional: Add some spacing between elements in the footer */
+  footer div + div {
+    margin-top: 0.5rem; /* Add space between sections */
+  }
