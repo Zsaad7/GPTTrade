@@ -4,8 +4,7 @@ const ContactForm = () => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
-    subject: '',
-    message: '',
+    numberphone: '',
   });
 
   const [errors, setErrors] = useState({});
@@ -20,8 +19,8 @@ const ContactForm = () => {
     if (!formData.name.trim()) newErrors.name = 'Le nom est requis.';
     if (!formData.email.trim() || !/\S+@\S+\.\S+/.test(formData.email))
       newErrors.email = 'Veuillez entrer une adresse e-mail valide.';
-    if (!formData.subject.trim()) newErrors.subject = 'Le sujet est requis.';
-    if (!formData.message.trim()) newErrors.message = 'Le message est requis.';
+    if (!formData.numberphone.trim() || !/^\d{10}$/.test(formData.numberphone))
+      newErrors.numberphone = 'Veuillez entrer un numéro de téléphone valide (10 chiffres).';
     return newErrors;
   };
 
@@ -32,10 +31,9 @@ const ContactForm = () => {
       setErrors(validationErrors);
       return;
     }
-
     // Simulate form submission
     setSuccessMessage('Votre message a été envoyé avec succès.');
-    setFormData({ name: '', email: '', subject: '', message: '' });
+    setFormData({ name: '', email: '', numberphone: '' });
     setErrors({});
   };
 
@@ -47,10 +45,10 @@ const ContactForm = () => {
           {successMessage}
         </div>
       )}
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className="space-y-6">
         {/* Name Field */}
-        <div className="mb-4">
-          <label htmlFor="name" className="block text-gray-700 font-medium mb-2">
+        <div className="flex flex-col items-center">
+          <label htmlFor="name" className="block text-gray-700 font-medium mb-2 text-center">
             Nom complet
           </label>
           <input
@@ -59,19 +57,19 @@ const ContactForm = () => {
             name="name"
             value={formData.name}
             onChange={handleChange}
-            className={`w-full px-4 py-2 border rounded focus:ring focus:ring-blue-300 ${
+            className={`w-full sm:w-96 px-4 py-2 border rounded focus:ring focus:ring-blue-300 text-black ${
               errors.name ? 'border-red-500' : 'border-gray-300'
             }`}
             placeholder="Votre nom"
           />
           {errors.name && (
-            <p className="text-red-500 text-sm mt-1">{errors.name}</p>
+            <p className="text-red-500 text-sm mt-1 text-center w-full sm:w-96">{errors.name}</p>
           )}
         </div>
 
         {/* Email Field */}
-        <div className="mb-4">
-          <label htmlFor="email" className="block text-gray-700 font-medium mb-2">
+        <div className="flex flex-col items-center">
+          <label htmlFor="email" className="block text-gray-700 font-medium mb-2 text-center">
             Adresse e-mail
           </label>
           <input
@@ -80,65 +78,46 @@ const ContactForm = () => {
             name="email"
             value={formData.email}
             onChange={handleChange}
-            className={`w-full px-4 py-2 border rounded focus:ring focus:ring-blue-300 ${
+            className={`w-full sm:w-96 px-4 py-2 border rounded focus:ring focus:ring-blue-300 text-black ${
               errors.email ? 'border-red-500' : 'border-gray-300'
             }`}
             placeholder="Votre adresse e-mail"
           />
           {errors.email && (
-            <p className="text-red-500 text-sm mt-1">{errors.email}</p>
+            <p className="text-red-500 text-sm mt-1 text-center w-full sm:w-96">{errors.email}</p>
           )}
         </div>
 
-        {/* Subject Field */}
-        <div className="mb-4">
-          <label htmlFor="subject" className="block text-gray-700 font-medium mb-2">
-            Sujet
+        {/* Numberphone Field */}
+        <div className="flex flex-col items-center">
+          <label htmlFor="numberphone" className="block text-gray-700 font-medium mb-2 text-center">
+            Numéro Téléphone
           </label>
           <input
             type="text"
-            id="subject"
-            name="subject"
-            value={formData.subject}
+            id="numberphone"
+            name="numberphone"
+            value={formData.numberphone}
             onChange={handleChange}
-            className={`w-full px-4 py-2 border rounded focus:ring focus:ring-blue-300 ${
-              errors.subject ? 'border-red-500' : 'border-gray-300'
+            className={`w-full sm:w-96 px-4 py-2 border rounded focus:ring focus:ring-blue-300 text-black ${
+              errors.numberphone ? 'border-red-500' : 'border-gray-300'
             }`}
-            placeholder="Sujet de votre message"
+            placeholder="Votre numéro de téléphone (10 chiffres)"
           />
-          {errors.subject && (
-            <p className="text-red-500 text-sm mt-1">{errors.subject}</p>
-          )}
-        </div>
-
-        {/* Message Field */}
-        <div className="mb-4">
-          <label htmlFor="message" className="block text-gray-700 font-medium mb-2">
-            Message
-          </label>
-          <textarea
-            id="message"
-            name="message"
-            value={formData.message}
-            onChange={handleChange}
-            rows="5"
-            className={`w-full px-4 py-2 border rounded focus:ring focus:ring-blue-300 ${
-              errors.message ? 'border-red-500' : 'border-gray-300'
-            }`}
-            placeholder="Écrivez votre message ici..."
-          ></textarea>
-          {errors.message && (
-            <p className="text-red-500 text-sm mt-1">{errors.message}</p>
+          {errors.numberphone && (
+            <p className="text-red-500 text-sm mt-1 text-center w-full sm:w-96">{errors.numberphone}</p>
           )}
         </div>
 
         {/* Submit Button */}
-        <button
-          type="submit"
-          className="w-full bg-blue-600 text-white font-medium py-2 px-4 rounded hover:bg-blue-700 focus:outline-none focus:ring focus:ring-blue-300"
-        >
-          Envoyer
-        </button>
+        <div className="flex justify-center">
+          <button
+            type="submit"
+            className="w-full sm:w-96 bg-blue-600 text-white font-medium py-2 px-4 rounded hover:bg-blue-700 focus:outline-none focus:ring focus:ring-blue-300"
+          >
+            Envoyer
+          </button>
+        </div>
       </form>
     </div>
   );

@@ -28,7 +28,7 @@ const Header = () => {
             </li> */}
             <li>
               <Link to="/cta" className="hover:text-gray-300 transition duration-300">
-                Contactez Nous
+                Contactez-Nous
               </Link>
             </li>
           </ul>

@@ -2,9 +2,8 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Header from './components/Header';
 import Footer from './components/Footer';
-import HomePage from './pages/HomePage'; // Ensure lowercase 'pages'
-import CTAPage from './pages/CTAPage'; // Ensure lowercase 'pages'
-
+import HomePage from './pages/HomePage';
+import CTAPage from './pages/CTAPage'; // Corrected to 'pages'
 
 function App() {
   return (

@@ -1,12 +1,12 @@
 import React from 'react';
 import Hero from '../components/Hero';
-import Features from '../components/Features';
+import GPTTrade from '../pages/GPTTrade'; // Importez le composant GPTTrade
 
 const HomePage = () => {
   return (
     <div>
-      <Hero />
-      {/* <Features /> */}
+      {/* <Hero /> */}
+      <GPTTrade /> {/* Ajoutez le composant GPTTrade ici */}
     </div>
   );
 };

@@ -1,14 +1,16 @@
 import React from 'react';
-import ContactForm from '../pages/ContactForm';
+import ContactForm from '../pages/ContactForm'; // Ensure this path is correct
 
 const CTAPage = () => {
   return (
-    <div className="py-16 bg-blue-600 text-white text-center">
-      <h1 className="text-3xl font-bold mb-4">Prêt à commencer ?</h1>
-      <p className="mb-6">Remplissez le formulaire ci-dessous pour nous contacter.</p>
-      <div className="max-w-lg mx-auto">
-        <ContactForm />
-      </div>
+    <div className="min-h-screen flex flex-col bg-blue-600 text-white"> {/* Set background to blue */}
+      <main className="flex-grow p-8">
+        <h1 className="text-3xl font-bold text-center mb-4">Prêt à commencer ?</h1>
+        <p className="text-center mb-8">Remplissez le formulaire ci-dessous pour nous contacter.</p>
+        <div> {/* White background for form */}
+          <ContactForm />
+        </div>
+      </main>
     </div>
   );
 };
