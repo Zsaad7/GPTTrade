@@ -1,23 +1,33 @@
 import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Header from './components/Header';
-import Hero from './components/Hero';
-import Features from './components/Features';
-import Testimonials from './components/Testimonials';
-import CTA from './components/CTA';
 import Footer from './components/Footer';
+import HomePage from './pages/HomePage';
+// import FeaturesPage from './pages/FeaturesPage';
+// import TestimonialsPage from './pages/TestimonialsPage';
+import CTAPage from './pages/CTAPage';
 
 function App() {
   return (
-    <div className="flex flex-col min-h-screen bg-gray-100">
-  <Header />
-  <main className="flex-grow">
-    <Hero />
-    <Features />
-    <Testimonials />
-    <CTA />
-  </main>
-  <Footer className="bg-gray-800 text-white p-4" />
-</div>
+    <Router>
+      <div className="flex flex-col min-h-screen bg-gray-100">
+        {/* Shared Header */}
+        <Header />
+
+        {/* Main Content with Routing */}
+        <main className="flex-grow">
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            {/* <Route path="/features" element={<FeaturesPage />} />
+            <Route path="/testimonials" element={<TestimonialsPage />} /> */}
+            <Route path="/cta" element={<CTAPage />} />
+          </Routes>
+        </main>
+
+        {/* Shared Footer */}
+        <Footer className="bg-gray-800 text-white p-4" />
+      </div>
+    </Router>
   );
 }
 

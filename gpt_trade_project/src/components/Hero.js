@@ -1,12 +1,12 @@
 import React from 'react';
-import '../styles/hero.css';
 
 const Hero = () => {
   return (
-    <section id="hero" className="hero">
-      <h1>Bonjour, My Landing Page</h1>
-      <p>Discover the best solutions for your business.</p>
-      <button className="custom-button">Get Started</button>
+    <section className="py-16 bg-gray-100 text-center">
+      <h1 className="text-4xl font-bold mb-4">Bienvenue sur notre site</h1>
+      <p className="text-lg">
+        Découvrez comment nous pouvons vous aider à réussir votre test de portefeuille financier.
+      </p>
     </section>
   );
 };
