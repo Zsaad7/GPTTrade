@@ -1,99 +1,144 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
+import tradingImage from '../assets/trading.jpg';
+import successImage from '../assets/success.jpg';
+import marketImage from '../assets/market.jpg';
+import "../styles/global.css"; // Import global CSS
+
 
 const GPTTrade = () => {
+  // Simulated market data (replace with real API call)
+  const [marketInfo, setMarketInfo] = useState({ nq: 17500.25, es: 4875.80 });
+
+  useEffect(() => {
+    const fetchData = async () => {
+      // Fetch market data (replace with actual API)
+      setMarketInfo({
+        nq: (17500 + Math.random() * 50).toFixed(2),
+        es: (4875 + Math.random() * 20).toFixed(2),
+      });
+    };
+
+    fetchData();
+    const interval = setInterval(fetchData, 5000);
+    return () => clearInterval(interval);
+  }, []);
+
   return (
-    <section className="py-16 bg-gray-100 text-gray-800">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section class="grading" >
+      <div className="max-w-7xl mx-auto px-6 sm:px-12 lg:px-20">
+        
         {/* Title Section */}
-        <h1 className="text-4xl font-bold text-center mb-8">
-          Entreprise GPTTrade : Votre succès dans le test de portefeuille financier est notre objectif !
-        </h1>
+        <motion.h1 
+          className="text-5xl font-extrabold text-center mb-12 text-gray-900"
+          initial={{ opacity: 0, y: -50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+        >
+          🚀 Entreprise GPTTrade : Votre succès est notre priorité !
+        </motion.h1>
+
+        {/* Live Market Data */}
+        <section className="py-12 bg-gray-900 text-white text-center rounded-lg shadow-xl">
+          <h2 className="text-3xl font-bold mb-6">📈 Live Market Trends</h2>
+          <div className="flex justify-center gap-6">
+            <div className="p-6 bg-gray-800 rounded-lg">
+              <h3 className="text-2xl font-semibold">NQ Futures</h3>
+              <p className="text-xl text-green-400">${marketInfo.nq}</p>
+            </div>
+            <div className="p-6 bg-gray-800 rounded-lg">
+              <h3 className="text-2xl font-semibold">ES Futures</h3>
+              <p className="text-xl text-green-400">${marketInfo.es}</p>
+            </div>
+          </div>
+        </section>
 
         {/* Content Container */}
-        <article className="prose prose-lg max-w-4xl mx-auto space-y-8">
+        <article className="prose prose-lg max-w-5xl mx-auto space-y-12 text-gray-700 mt-12">
+          
           {/* Introduction */}
-          <div>
+          <motion.div className="bg-white shadow-xl rounded-lg p-8 hover:shadow-2xl transition duration-300" whileHover={{ scale: 1.03 }}>
+            <img src={tradingImage} alt="Trading" className="rounded-lg mb-4 w-full object-cover h-64" />
             <p className="text-lg leading-relaxed">
-              Souhaitez-vous réussir le test d'obtention d'un portefeuille financier sans vous soucier des transactions complexes ?
-              L'entreprise GPTTrade est là pour vous aider ! Nous vous offrons une opportunité exceptionnelle de réussir ce test avec
-              confiance et succès, sans avoir à payer de commissions ou de frais avant d'avoir atteint les résultats escomptés.
+              GPTTrade vous accompagne dans la réussite de votre test de portefeuille financier, sans commissions avant d’atteindre vos résultats escomptés !
             </p>
-          </div>
+          </motion.div>
 
           {/* Why Choose GPTTrade */}
-          <div>
-            <h2 className="text-2xl font-bold mb-4">Pourquoi choisir l'entreprise GPTTrade ?</h2>
+          <motion.div className="bg-white shadow-xl rounded-lg p-8 hover:shadow-2xl transition duration-300" whileHover={{ scale: 1.03 }}>
+            <h2 className="text-3xl font-bold mb-4 text-gray-900">💡 Pourquoi choisir GPTTrade ?</h2>
+            <img src={successImage} alt="Success" className="rounded-lg mb-4 w-full object-cover h-64" />
             <p className="text-lg leading-relaxed">
-              Chez GPTTrade, nous croyons que le succès commence par la confiance. C'est pourquoi nous vous proposons nos services sans
-              prélever de commission tant que vous n'aurez pas réussi le test. Notre mission est de vous accompagner jusqu'à ce que vous
-              passiez ce test avec succès, sans avoir à vous inquiéter des opérations complexes. Il vous suffit de fournir vos identifiants
-              de compte, et nous prendrons en charge le reste.
+              Nous croyons en votre réussite avant tout. Pas de frais cachés, pas de commission avant succès.
             </p>
-          </div>
+          </motion.div>
 
-          {/* How We Work */}
-          <div>
-            <h2 className="text-2xl font-bold mb-4">Comment fonctionnons-nous ?</h2>
-            <p className="text-lg leading-relaxed">
-              Nous spécialisons dans le trading d'avenirs (futures) uniquement, en particulier sur les contrats NQ et ES, qui sont parmi
-              les plus populaires sur les marchés boursiers américains. Grâce à notre expertise approfondie dans ces marchés, nous pouvons
-              gérer vos transactions de manière professionnelle, garantissant ainsi un rendement solide lors du test de portefeuille financier.
-            </p>
-          </div>
+          {/* Testimonials */}
+          <motion.div className="bg-blue-50 p-8 rounded-lg shadow-lg hover:shadow-2xl transition duration-300 text-center">
+            <h2 className="text-3xl font-bold mb-6">⭐ Ce que disent nos clients</h2>
+            <p className="text-lg italic">"Grâce à GPTTrade, j'ai passé mon test sans stress. Une équipe de pro !" - <strong>Alice M.</strong></p>
+          </motion.div>
 
-          {/* No Commissions Until Success */}
-          <div>
-            <h2 className="text-2xl font-bold mb-4">Pas de commissions avant la réussite !</h2>
-            <p className="text-lg leading-relaxed">
-              Vous ne paierez aucune commission que si vous réussissez le test et atteignez vos objectifs. Nous croyons fermement en votre
-              succès en premier lieu, et travaillons donc avec vous de manière transparente. Seulement lorsque vous réussirez, nous
-              percevrons les commissions convenues à l'avance.
-            </p>
-          </div>
+          {/* Profit Calculator */}
+          <motion.div className="bg-white shadow-xl rounded-lg p-8 hover:shadow-2xl transition duration-300" whileHover={{ scale: 1.03 }}>
+            <h2 className="text-3xl font-bold mb-4 text-gray-900">📊 Calculez vos profits</h2>
+            <ProfitCalculator />
+          </motion.div>
 
-          {/* Main Objective */}
-          <div>
-            <h2 className="text-2xl font-bold mb-4">Notre objectif principal :</h2>
-            <p className="text-lg leading-relaxed">
-              L'objectif principal de GPTTrade est de rassembler des résultats positifs et probants grâce aux tests de portefeuille
-              financier, ce qui constituera une base solide pour élargir notre entreprise. Nous nous efforçons d'obtenir les licences
-              nécessaires pour transformer GPTTrade en un fonds spéculatif agréé, tout en offrant des services de trading avancés et
-              efficaces aux investisseurs et clients qui aspirent à réussir dans les marchés financiers.
-            </p>
-          </div>
-
-          {/* Why NQ and ES Contracts */}
-          <div>
-            <h2 className="text-2xl font-bold mb-4">Pourquoi avons-nous choisi les contrats futurs NQ et ES ?</h2>
-            <ul className="list-disc list-inside text-lg leading-relaxed">
-              <li><strong>Liquidité élevée</strong> : Ces contrats offrent une grande liquidité, permettant une exécution rapide et efficace des ordres.</li>
-              <li><strong>Volatilité favorable</strong> : Les fluctuations des prix créent des opportunités importantes pour générer des profits.</li>
-              <li><strong>Transparence</strong> : Les marchés des contrats futurs fonctionnent selon des principes transparents, facilitant le suivi des transactions et l'analyse du marché.</li>
-            </ul>
-          </div>
+          {/* Comparison Table */}
+          <motion.div className="bg-gray-900 text-white p-8 rounded-lg shadow-xl hover:shadow-2xl transition duration-300 text-center">
+            <h2 className="text-3xl font-bold mb-6">⚖ Comparez GPTTrade</h2>
+            <div className="overflow-x-auto">
+              <table className="table-auto w-full max-w-4xl mx-auto border-collapse border border-gray-700">
+                <thead>
+                  <tr className="bg-gray-800">
+                    <th className="p-4 border border-gray-700">Feature</th>
+                    <th className="p-4 border border-gray-700">GPTTrade</th>
+                    <th className="p-4 border border-gray-700">Others</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td className="p-4 border border-gray-700">Pas de frais cachés</td>
+                    <td className="p-4 text-green-400 font-bold">✔ Oui</td>
+                    <td className="p-4 text-red-400 font-bold">✘ Non</td>
+                  </tr>
+                  <tr>
+                    <td className="p-4 border border-gray-700">Trading expert NQ & ES</td>
+                    <td className="p-4 text-green-400 font-bold">✔ Oui</td>
+                    <td className="p-4 text-red-400 font-bold">✘ Non</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </motion.div>
 
           {/* Call to Action */}
-          <div className="text-center">
-            <h2 className="text-2xl font-bold mb-4">Faites votre premier pas vers le succès !</h2>
-            <p className="text-lg leading-relaxed">
-              Votre réussite est notre priorité absolue. Nous nous engageons à rendre chaque étape de votre parcours vers la réussite
-              stratégique et bien fondée. Notre équipe d'experts gérera tous les aspects du trading à votre place, vous permettant ainsi de
-              vous concentrer pleinement sur l'atteinte de vos objectifs financiers.
+          <motion.div className="text-center bg-gradient-to-r from-blue-600 to-indigo-600 text-white p-12 rounded-lg shadow-xl hover:shadow-2xl transition duration-300" initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
+            <h2 className="text-3xl font-bold mb-4">🚀 Prêt à réussir ?</h2>
+            <p className="text-lg leading-relaxed mb-6">
+              Contactez-nous dès aujourd'hui et laissez-nous vous guider vers la réussite financière !
             </p>
-            <p className="text-lg leading-relaxed">
-              Si vous êtes prêt à réussir votre test de portefeuille financier, contactez GPTTrade dès aujourd'hui et laissez-nous vous aider
-              à franchir cette étape avec professionnalisme !
-            </p>
-            <a
-              href="/cta"
-              className="inline-block bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-6 rounded-full transition duration-300"
-            >
-              Contactez-nous maintenant
+            <a href="/cta" className="inline-block bg-white text-blue-600 font-semibold py-3 px-8 rounded-full transition duration-300 hover:bg-gray-100 shadow-lg hover:shadow-xl">
+              📞 Contactez-nous maintenant
             </a>
-          </div>
+          </motion.div>
+
         </article>
       </div>
     </section>
+  );
+};
+
+const ProfitCalculator = () => {
+  const [investment, setInvestment] = useState(1000);
+  const estimatedReturn = investment * 1.25;
+
+  return (
+    <div className="text-center">
+      <input type="number" className="border p-2 rounded w-48" value={investment} onChange={(e) => setInvestment(Number(e.target.value))} />
+      <p className="mt-4 text-lg font-semibold">Retour estimé: <span className="text-green-600">${estimatedReturn.toFixed(2)}</span></p>
+    </div>
   );
 };
 

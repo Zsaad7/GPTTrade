@@ -1,12 +1,14 @@
-import React from 'react';
-import Hero from '../components/Hero';
-import GPTTrade from '../pages/GPTTrade'; // Importez le composant GPTTrade
+import React from "react";
+import Header from "../components/Header"; // Import header
+import Footer from "../components/Footer"; // Import footer
+import GPTTrade from "../pages/GPTTrade"; // Main content
 
 const HomePage = () => {
   return (
-    <div>
-      {/* <Hero /> */}
-      <GPTTrade /> {/* Ajoutez le composant GPTTrade ici */}
+    <div className="bg-gray-100">
+      <Header />
+      <GPTTrade />
+      <Footer />
     </div>
   );
 };
