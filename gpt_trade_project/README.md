@@ -68,3 +68,30 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+
+
+
+## 🔥 Firebase Firestore Integration
+
+This application uses **Firebase Firestore** to store messages sent through the contact form.
+
+### 🚀 Firebase Setup
+
+1. **Create a Firebase project** on [Firebase Console](https://console.firebase.google.com/).
+2. **Enable Firestore Database** and choose **Production Mode**.
+3. **Configure Firebase in the project**:
+   - Install Firebase:
+     ```sh
+     npm install firebase
+     ```
+   - Create a **`firebase.js`** file inside **`src/`** and add the Firebase configuration.
+
+---
+
+### 🔒 Fixing the "FirebaseError: Missing or insufficient permissions" Issue
+
+If you encounter the **"Missing or insufficient permissions"** error when submitting the form, **update the Firestore rules**:
+
+1. **Go to Firebase Console** → Firestore Database → Rules.
+2. **Update the rules**
