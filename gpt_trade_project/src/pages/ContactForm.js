@@ -10,8 +10,17 @@ const ContactForm = () => {
   const [errors, setErrors] = useState({});
   const [successMessage, setSuccessMessage] = useState('');
 
+  // Handle input changes while restricting invalid characters for phone numbers
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+
+    if (name === 'numberphone') {
+      // Allow only digits and the '+' symbol
+      const sanitizedValue = value.replace(/[^0-9+]/g, '');
+      setFormData({ ...formData, [name]: sanitizedValue });
+    } else {
+      setFormData({ ...formData, [name]: value });
+    }
   };
 
   const validateForm = () => {
@@ -19,8 +28,16 @@ const ContactForm = () => {
     if (!formData.name.trim()) newErrors.name = 'Le nom est requis.';
     if (!formData.email.trim() || !/\S+@\S+\.\S+/.test(formData.email))
       newErrors.email = 'Veuillez entrer une adresse e-mail valide.';
-    if (!formData.numberphone.trim() || !/^\d{10}$/.test(formData.numberphone))
-      newErrors.numberphone = 'Veuillez entrer un numéro de téléphone valide (10 chiffres).';
+
+    // Validate phone number to allow optional '+' followed by exactly 10 digits
+    if (
+      !formData.numberphone.trim() ||
+      !/^\+?\d{10}$/.test(formData.numberphone)
+    ) {
+      newErrors.numberphone =
+        'Veuillez entrer un numéro de téléphone valide (10 chiffres, avec ou sans "+").';
+    }
+
     return newErrors;
   };
 
@@ -31,6 +48,7 @@ const ContactForm = () => {
       setErrors(validationErrors);
       return;
     }
+
     // Simulate form submission
     setSuccessMessage('Votre message a été envoyé avec succès.');
     setFormData({ name: '', email: '', numberphone: '' });
@@ -102,7 +120,7 @@ const ContactForm = () => {
             className={`w-full sm:w-96 px-4 py-2 border rounded focus:ring focus:ring-blue-300 text-black ${
               errors.numberphone ? 'border-red-500' : 'border-gray-300'
             }`}
-            placeholder="Votre numéro de téléphone (10 chiffres)"
+            placeholder="Votre numéro de téléphone (+ et 10 chiffres)"
           />
           {errors.numberphone && (
             <p className="text-red-500 text-sm mt-1 text-center w-full sm:w-96">{errors.numberphone}</p>
