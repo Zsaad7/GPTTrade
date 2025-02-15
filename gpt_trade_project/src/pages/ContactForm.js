@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { sendMessage } from '../config/firebase';
 
 const ContactForm = () => {
   const [formData, setFormData] = useState({
@@ -24,7 +25,7 @@ const ContactForm = () => {
     return newErrors;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const validationErrors = validateForm();
     if (Object.keys(validationErrors).length > 0) {
@@ -32,9 +33,14 @@ const ContactForm = () => {
       return;
     }
     // Simulate form submission
-    setSuccessMessage('Votre message a été envoyé avec succès.');
-    setFormData({ name: '', email: '', numberphone: '' });
-    setErrors({});
+    const response = await sendMessage(formData);
+    if (response.success) {
+      setSuccessMessage('Votre message a été envoyé avec succès.');
+      setFormData({ name: '', email: '', numberphone: '' });
+      setErrors({});
+    } else {
+      setErrors({ general: "Une erreur s'est produite. Veuillez réessayer." });
+    }
   };
 
   return (
@@ -62,9 +68,7 @@ const ContactForm = () => {
             }`}
             placeholder="Votre nom"
           />
-          {errors.name && (
-            <p className="text-red-500 text-sm mt-1 text-center w-full sm:w-96">{errors.name}</p>
-          )}
+          {errors.name && <p className="text-red-500 text-sm mt-1 text-center w-full sm:w-96">{errors.name}</p>}
         </div>
 
         {/* Email Field */}
@@ -83,9 +87,7 @@ const ContactForm = () => {
             }`}
             placeholder="Votre adresse e-mail"
           />
-          {errors.email && (
-            <p className="text-red-500 text-sm mt-1 text-center w-full sm:w-96">{errors.email}</p>
-          )}
+          {errors.email && <p className="text-red-500 text-sm mt-1 text-center w-full sm:w-96">{errors.email}</p>}
         </div>
 
         {/* Numberphone Field */}
@@ -104,17 +106,12 @@ const ContactForm = () => {
             }`}
             placeholder="Votre numéro de téléphone (10 chiffres)"
           />
-          {errors.numberphone && (
-            <p className="text-red-500 text-sm mt-1 text-center w-full sm:w-96">{errors.numberphone}</p>
-          )}
+          {errors.numberphone && <p className="text-red-500 text-sm mt-1 text-center w-full sm:w-96">{errors.numberphone}</p>}
         </div>
 
         {/* Submit Button */}
         <div className="flex justify-center">
-          <button
-            type="submit"
-            className="w-full sm:w-96 bg-blue-600 text-white font-medium py-2 px-4 rounded hover:bg-blue-700 focus:outline-none focus:ring focus:ring-blue-300"
-          >
+          <button type="submit" className="w-full sm:w-96 bg-blue-600 text-white font-medium py-2 px-4 rounded hover:bg-blue-700 focus:outline-none focus:ring focus:ring-blue-300">
             Envoyer
           </button>
         </div>
