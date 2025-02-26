@@ -1,140 +1,150 @@
 import React, { useState } from 'react';
-import { sendMessage } from '../config/firebase';
+import { motion } from 'framer-motion';
+import { translations } from '../constants/translations';
+import { db } from '../firebase/config';
+import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 
-const ContactForm = () => {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    numberphone: '',
-  });
+const ContactForm = ({ language = 'fr' }) => {
+  const [fullName, setFullName] = useState('');
+  const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState({ type: '', message: '' });
 
-  const [errors, setErrors] = useState({});
-  const [successMessage, setSuccessMessage] = useState('');
-
-  // Handle input changes while restricting invalid characters for phone numbers
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-
-    if (name === 'numberphone') {
-      // Allow only digits and the '+' symbol
-      const sanitizedValue = value.replace(/[^0-9+]/g, '');
-      setFormData({ ...formData, [name]: sanitizedValue });
-    } else {
-      setFormData({ ...formData, [name]: value });
+  // Create a helper function to safely get translations
+  const getTranslation = (key) => {
+    try {
+      return translations[language][key] || translations['fr'][key];
+    } catch (error) {
+      console.warn(`Translation missing for key: ${key}`);
+      return key;
     }
-  };
-
-  const validateForm = () => {
-    const newErrors = {};
-    if (!formData.name.trim()) newErrors.name = 'Le nom est requis.';
-    if (!formData.email.trim() || !/\S+@\S+\.\S+/.test(formData.email))
-      newErrors.email = 'Veuillez entrer une adresse e-mail valide.';
-
-    // Validate phone number to allow optional '+' followed by exactly 10 digits
-    if (
-      !formData.numberphone.trim() ||
-      !/^\+?\d{10}$/.test(formData.numberphone)
-    ) {
-      newErrors.numberphone =
-        'Veuillez entrer un numéro de téléphone valide (10 chiffres, avec ou sans "+").';
-    }
-
-    return newErrors;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const validationErrors = validateForm();
-    if (Object.keys(validationErrors).length > 0) {
-      setErrors(validationErrors);
-      return;
-    }
+    setIsSubmitting(true);
+    setSubmitStatus({ type: '', message: '' });
 
-    // Simulate form submission
-    const response = await sendMessage(formData);
-    if (response.success) {
-      setSuccessMessage('Votre message a été envoyé avec succès.');
-      setFormData({ name: '', email: '', numberphone: '' });
-      setErrors({});
-    } else {
-      setErrors({ general: "Une erreur s'est produite. Veuillez réessayer." });
+    try {
+      // Add document to Firestore
+      await addDoc(collection(db, 'contacts'), {
+        fullName,
+        email,
+        phone,
+        createdAt: serverTimestamp(),
+        language
+      });
+
+      // Clear form
+      setFullName('');
+      setEmail('');
+      setPhone('');
+      
+      setSubmitStatus({
+        type: 'success',
+        message: language === 'ar' ? 'تم إرسال النموذج بنجاح' : 
+                language === 'fr' ? 'Formulaire envoyé avec succès' : 
+                'Form submitted successfully'
+      });
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      setSubmitStatus({
+        type: 'error',
+        message: language === 'ar' ? 'حدث خطأ أثناء الإرسال' : 
+                language === 'fr' ? 'Erreur lors de l\'envoi' : 
+                'Error submitting form'
+      });
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
   return (
-    <div className="max-w-md mx-auto p-8 bg-white shadow-lg rounded-lg">
-      <h2 className="text-2xl font-bold text-center mb-6">Contactez-nous</h2>
-      {successMessage && (
-        <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
-          {successMessage}
-        </div>
-      )}
-      <form onSubmit={handleSubmit} className="space-y-6">
-        {/* Name Field */}
-        <div className="flex flex-col items-center">
-          <label htmlFor="name" className="block text-gray-700 font-medium mb-2 text-center">
-            Nom complet
-          </label>
-          <input
-            type="text"
-            id="name"
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
-            className={`w-full sm:w-96 px-4 py-2 border rounded focus:ring focus:ring-blue-300 text-black ${
-              errors.name ? 'border-red-500' : 'border-gray-300'
-            }`}
-            placeholder="Votre nom"
-          />
-          {errors.name && <p className="text-red-500 text-sm mt-1 text-center w-full sm:w-96">{errors.name}</p>}
-        </div>
+    <section className="min-h-screen bg-gray-100 dark:bg-gray-900 py-12">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <motion.h1 
+          className="text-5xl font-extrabold text-center mb-12 text-gray-900 dark:text-white"
+          initial={{ opacity: 0, y: -50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+        >
+          {getTranslation('contactUsTitle')}
+        </motion.h1>
 
-        {/* Email Field */}
-        <div className="flex flex-col items-center">
-          <label htmlFor="email" className="block text-gray-700 font-medium mb-2 text-center">
-            Adresse e-mail
-          </label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            className={`w-full sm:w-96 px-4 py-2 border rounded focus:ring focus:ring-blue-300 text-black ${
-              errors.email ? 'border-red-500' : 'border-gray-300'
-            }`}
-            placeholder="Votre adresse e-mail"
-          />
-          {errors.email && <p className="text-red-500 text-sm mt-1 text-center w-full sm:w-96">{errors.email}</p>}
-        </div>
+        <motion.div 
+          className="bg-white dark:bg-gray-800 shadow-xl rounded-lg p-8 hover:shadow-2xl transition duration-300"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+        >
+          {submitStatus.message && (
+            <div className={`mb-4 p-4 rounded ${
+              submitStatus.type === 'success' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'
+            }`}>
+              {submitStatus.message}
+            </div>
+          )}
 
-        {/* Numberphone Field */}
-        <div className="flex flex-col items-center">
-          <label htmlFor="numberphone" className="block text-gray-700 font-medium mb-2 text-center">
-            Numéro Téléphone
-          </label>
-          <input
-            type="text"
-            id="numberphone"
-            name="numberphone"
-            value={formData.numberphone}
-            onChange={handleChange}
-            className={`w-full sm:w-96 px-4 py-2 border rounded focus:ring focus:ring-blue-300 text-black ${
-              errors.numberphone ? 'border-red-500' : 'border-gray-300'
-            }`}
-            placeholder="Votre numéro de téléphone (+ et 10 chiffres)"
-          />
-          {errors.numberphone && <p className="text-red-500 text-sm mt-1 text-center w-full sm:w-96">{errors.numberphone}</p>}
-        </div>
-
-        {/* Submit Button */}
-        <div className="flex justify-center">
-          <button type="submit" className="w-full sm:w-96 bg-blue-600 text-white font-medium py-2 px-4 rounded hover:bg-blue-700 focus:outline-none focus:ring focus:ring-blue-300">
-            Envoyer
-          </button>
-        </div>
-      </form>
-    </div>
+          <form onSubmit={handleSubmit}>
+            <div className="mb-4">
+              <label htmlFor="fullName" className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">{getTranslation('fullNameLabel')}</label>
+              <input
+                type="text"
+                id="fullName"
+                value={fullName}
+                onChange={(e) => setFullName(e.target.value)}
+                required
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+              />
+            </div>
+            <div className="mb-4">
+              <label htmlFor="email" className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">{getTranslation('emailLabel')}</label>
+              <input
+                type="email"
+                id="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+              />
+            </div>
+            <div className="mb-4">
+              <label htmlFor="phone" className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">{getTranslation('phoneLabel')}</label>
+              <input
+                type="tel"
+                id="phone"
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+                required
+                pattern="[0-9]{10}"
+                placeholder="0123456789"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+              />
+            </div>
+            <button 
+              type="submit" 
+              disabled={isSubmitting}
+              className={`w-full px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition duration-200 ${
+                isSubmitting ? 'opacity-50 cursor-not-allowed' : ''
+              }`}
+            >
+              {isSubmitting ? (
+                <span className="flex items-center justify-center">
+                  <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                  </svg>
+                  {getTranslation('submitButton')}
+                </span>
+              ) : (
+                getTranslation('submitButton')
+              )}
+            </button>
+          </form>
+        </motion.div>
+      </div>
+    </section>
   );
 };
 
