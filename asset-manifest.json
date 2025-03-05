@@ -1,0 +1,28 @@
+{
+  "files": {
+    "main.css": "/GPTTrade/static/css/main.5ca2e0d8.css",
+    "main.js": "/GPTTrade/static/js/main.31577af8.js",
+    "static/js/488.08ff7dea.chunk.js": "/GPTTrade/static/js/488.08ff7dea.chunk.js",
+    "static/media/trading.jpg": "/GPTTrade/static/media/trading.2ccd8f0b5b80be451b1c.jpg",
+    "static/media/success.jpg": "/GPTTrade/static/media/success.2385286bb83ce5b5b2af.jpg",
+    "static/media/market.jpg": "/GPTTrade/static/media/market.228e83dbcbdb8e0b44d6.jpg",
+    "static/media/gpttrade logo.png": "/GPTTrade/static/media/gpttrade logo.8c4a32ee3d1f5807cfcf.png",
+    "static/media/achievement9.jpg": "/GPTTrade/static/media/achievement9.00e4dd9ac52814fd5016.jpg",
+    "static/media/achievement8.jpg": "/GPTTrade/static/media/achievement8.c970008a8a22666d3b7e.jpg",
+    "static/media/achievement6.jpg": "/GPTTrade/static/media/achievement6.c2b2191437ecc843bb06.jpg",
+    "static/media/achievement5.jpg": "/GPTTrade/static/media/achievement5.07ee93e3a7bfbf3bae6b.jpg",
+    "static/media/achievement2.jpg": "/GPTTrade/static/media/achievement2.3def1bdd58d117a29669.jpg",
+    "static/media/achievement7.jpg": "/GPTTrade/static/media/achievement7.83f43d6bb80fc162da75.jpg",
+    "static/media/achievement1.jpg": "/GPTTrade/static/media/achievement1.fc6acae815805412f997.jpg",
+    "static/media/achievement4.jpg": "/GPTTrade/static/media/achievement4.4e9382a02523235c749c.jpg",
+    "static/media/achievement3.jpg": "/GPTTrade/static/media/achievement3.d69b2bcc7e125e254c08.jpg",
+    "index.html": "/GPTTrade/index.html",
+    "main.5ca2e0d8.css.map": "/GPTTrade/static/css/main.5ca2e0d8.css.map",
+    "main.31577af8.js.map": "/GPTTrade/static/js/main.31577af8.js.map",
+    "488.08ff7dea.chunk.js.map": "/GPTTrade/static/js/488.08ff7dea.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.5ca2e0d8.css",
+    "static/js/main.31577af8.js"
+  ]
+}
