@@ -1,30 +1,42 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { HashRouter as Router, Route, Routes } from "react-router-dom";
 import HomePage from "./pages/HomePage";
-import CTAPage from "./pages/CTAPage";
-import Results from "./pages/Results";
+import ModernResults from "./pages/ModernResults";
+import TestimonialAdmin from "./pages/TestimonialAdmin";
+import Signup from './pages/Signup';
+import SignIn from './pages/SignIn'; // Correct - default import
+import Profile from './pages/Profile'; // Import the new Profile component
 import Header from './components/Header';
 import Footer from './components/Footer';
+import ProtectedRoute from './components/ProtectedRoute'; // Import the ProtectedRoute component
 import { LanguageProvider } from './context/LanguageContext';
 
-function App() {
+const App = () => {
   return (
-    <Router>
-      <LanguageProvider>
-        <div className="app min-h-screen flex flex-col">
-          <Header />
-          <main className="pt-16 flex-grow">
-            <Routes>
-              <Route path="/" element={<HomePage />} />
-              {/* <Route path="/cta" element={<CTAPage />} /> */}
-              <Route path="/results" element={<Results />} />
-            </Routes>
-          </main>
-          <Footer />
-        </div>
-      </LanguageProvider>
-    </Router>
+    <LanguageProvider>
+      <Router>
+        <Header />
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/modernresults" element={<ModernResults />} />
+          <Route path="/admin/testimonials" element={<TestimonialAdmin />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/signin" element={<SignIn />} />
+          <Route path="/profile" element={
+            <ProtectedRoute>
+              <Profile />
+            </ProtectedRoute>
+          } />
+          <Route path="/dashboard" element={
+            <ProtectedRoute>
+              <Profile />
+            </ProtectedRoute>
+          } />
+        </Routes>
+        <Footer />
+      </Router>
+    </LanguageProvider>
   );
-}
+};
 
 export default App;
